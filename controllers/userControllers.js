@@ -1,20 +1,25 @@
-// create read delete methods
-// post delete update g
+// create user, get users, delete users, find users and login methods
+// post delete update
 const express = require("express");
-const mongoose = require("require");
-const cos = require("cors");
+const mongoose = require("mongoose");
+const cors = require("cors");
 const bcrypt = require("bcrypt");
+const User = require("../models/userModels");
+// const User = require("../models/userModel"); // make sure you have a User schema/model
+
 
 
 // create user
 const createUser = async (req, res) => {
     try {
         const { username, email, password } = req.body;
-        const existingUser = await email.findOne({ email })
+        // check if user already exists
+        const existingUser = await User.findOne({ email })
         if (existingUser) {
             console.log('User already exists');
             res.status(500).json(existingUser);
         } else {
+            //hash password before saving
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = await User.create({ username, email, password })
             console.log('User created successfully')
@@ -29,7 +34,7 @@ const createUser = async (req, res) => {
 
 
 
-// Get users
+//Get all users
 const getUsers = async (req, res) => {
     try {
         console.log("Fetched users", user);
@@ -42,7 +47,7 @@ const getUsers = async (req, res) => {
 };
 
 
-// Find users
+// Find single user by ID
 const findUsers = async (req, res) => {
     try {
         const User = await User.findById(req.params.id);
@@ -56,7 +61,7 @@ const findUsers = async (req, res) => {
         }
     } catch (error) {
         console.log("User not found", error);
-        res.status(500).json({ message: "Error finding user"});
+        res.status(500).json({ message: "Error finding user" });
     }
 
 };
@@ -106,25 +111,29 @@ const deleteUser = async (req, res) => {
 // login
 const login = async (req, res) => {
     try {
-        const {email, password} = req.body;
-        const user = await User.findOne({email});
+        const { email, password } = req.body;
+
+        // check if email exists
+        const user = await User.findOne({ email });
         if (!user) {
             console.log("User not found");
             return res.status(404).json({ error: "User not found" });
+
 
         } else {
             console.log("User found");
             res.status(200).json(user);
         }
 
+        // check password
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch){
+        if (!isMatch) {
             console.log("Incorrect password");
-            return res.status(400).json({error: "Incorrect password"});
+            return res.status(400).json({ error: "Incorrect password" });
 
         }
     } catch (error) {
-        res.status(500).json({error: err.message});
+        res.status(500).json({ error: err.message });
         console.log("User unsuccessful", err);
     }
 
@@ -133,11 +142,73 @@ const login = async (req, res) => {
 module.exports = {
     createUser,
     getUsers,
-    findUser,
-    updateUser,
+    findUsers,
+    updateUsers,
     deleteUser,
     login,
 };
 
 
 // function
+
+//1. CRUD Methods (for Users)
+
+// When building an API(e.g., in Express, Laravel, Django, etc.), you’ll commonly see these operations for users:
+//
+// Create User → POST / users
+// Add a new user to the database.
+//
+// Get Users → GET / users
+// Fetch all users(list).
+//
+// Find User(by ID) → GET / users /: id
+// Fetch a specific user.
+//
+// Update User → PUT / users /: id(or PATCH / users /: id)
+// Change user details.
+//
+// Delete User → DELETE / users /: id
+// Remove a user from the database.
+//
+// Login → POST / login
+// Check credentials, then return a session or token.
+//
+
+
+
+// 2. POST vs PUT vs PATCH vs DELETE vs GET
+//
+// These are HTTP methods(verbs) that describe the type of action:
+
+// GET
+// → Used to retrieve data
+// Example: GET / users → fetch all users.
+//
+// POST
+// → Used to create new data
+// Example: POST / users → create a new user.
+//
+// PUT
+// → Used to update / replace an existing record fully.
+// Example: PUT / users / 1 → replace all fields of user with ID 1.
+//
+// PATCH
+// → Used to partially update data(just a few fields).
+// Example: PATCH / users / 1 → update only the email field.
+//
+// DELETE
+// → Used to remove data.
+// Example: DELETE / users / 1 → delete user with ID 1.
+
+
+
+// Quick Analogy
+// POST → Add a new contact.
+//
+// GET → Look at the contact list.
+//
+// PUT → Replace the entire contact (all details).
+//
+// PATCH → Just change their phone number.
+//
+// DELETE → Remove the contact.

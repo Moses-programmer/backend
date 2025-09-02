@@ -5,6 +5,7 @@ const Product = require('../models/productModels');
 // const Product = require('../models/ProductModel');
 
 
+// Create a Product
 const createProduct = async(req,res) =>{
     try{
         const {name,quantity,price,image}= req.body;
@@ -39,6 +40,7 @@ const getProducts = async (req,res) => {
 }
 
 
+// /Find Single Product by ID
 const findProduct = async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);
@@ -56,6 +58,7 @@ const findProduct = async (req, res) => {
   };
 
 
+  // update a product
 const updateProduct = async (req, res) => {
     try {
       const product = await Product.findByIdAndUpdate(req.params.id, req.body);
@@ -72,6 +75,8 @@ const updateProduct = async (req, res) => {
     }
   }
   
+
+  // Delete a Product
   const deleteProduct = async (req,res)=> {
     try{
       const product= await Product.findByIdAndDelete(req.params.id , req.body);
@@ -98,3 +103,18 @@ module.exports={
     deleteProduct,
 
 }
+
+
+
+
+// This file defines CRUD operations for your Product model:
+
+// createProduct → Create new product.
+
+// getProducts → Get all products.
+
+// findProduct → Get a single product by ID.
+
+// updateProduct → Update product by ID.
+
+// deleteProduct → Delete product by ID.

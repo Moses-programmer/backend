@@ -1,12 +1,14 @@
 // schema determines structure of data
 const mongoose = require('mongoose');
+
+// Define Schema (structure of the collection)
 const productSchema =  new mongoose.Schema({
     name:{
         type:String
     },
-    // quantity:{
-    //     type:Number
-    // },
+     quantity:{
+         type:Number
+     },
     price:{
          type:Number
     },
@@ -22,6 +24,7 @@ const productSchema =  new mongoose.Schema({
 
 )
 
+// Create Model (links schema with MongoDB collection `products`)
 const Product = mongoose.model('Product', productSchema); 
 
 module.exports = Product;
