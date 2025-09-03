@@ -70,7 +70,7 @@ const findUsers = async (req, res) => {
 // Update user
 const updateUsers = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id, req.body);
+        const user = await User.findByIdAndUpdate(req.params.id, req.body);
         if (!user) {
             console.log("User not updated")
             response.status(404).json({ error: error.message });
