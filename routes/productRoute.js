@@ -2,7 +2,7 @@
 //This is where we create the endpoint 
 
 const express = require('express');
-const { createProduct, getProducts, updateProduct, deleteProduct } = require('../controllers/productControllers');
+const { createProduct, getProducts, updateProduct, deleteProduct, findProduct } = require('../controllers/productControllers');
 
 const router = express.Router();
 
@@ -15,6 +15,7 @@ router.post('/createproduct', createProduct);
 router.get('/getproduct', getProducts);
 router.put('/updateproduct/:id', updateProduct);
 router.delete('/deleteproduct', deleteProduct);
+router.get('/findproduct/:id', findProduct)
 
 module.exports = router;
 

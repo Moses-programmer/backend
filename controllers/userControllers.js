@@ -1,5 +1,5 @@
-// create user, get users, delete users, find users and login methods
-// post delete update
+// this is where to post the CRUD functions: create, read, update, delete, login
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -12,7 +12,7 @@ const User = require("../models/userModels");
 // create user
 const createUser = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { name, email, password } = req.body;
         // check if user already exists
         const existingUser = await User.findOne({ email })
         if (existingUser) {
@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
         } else {
             //hash password before saving
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = await User.create({ username, email, password })
+            const newUser = await User.create({ name, email, password })
             console.log('User created successfully')
             res.status(200).json(newUser);
         }
@@ -37,8 +37,8 @@ const createUser = async (req, res) => {
 //Get all users
 const getUsers = async (req, res) => {
     try {
-        console.log("Fetched users", user);
         const user = await User.find();
+        console.log("Fetched users", user);
         res.status(200).json(user);
     } catch (err) {
         console.error(err);
@@ -50,7 +50,7 @@ const getUsers = async (req, res) => {
 // Find single user by ID
 const findUsers = async (req, res) => {
     try {
-        const User = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id);
         if (!user) {
             console.log("User not found")
             return res.status(404).json({ error: "User not found" });

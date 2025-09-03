@@ -42,6 +42,7 @@ mongoose.connect(dbconnection, { useNewUrlParser: true, useUnifiedTopology: true
     .catch(err => console.error('Error connecting to MongoDB', err));
 
 //    create api routes/endpoints
+//rest apis
 app.use('/api/users', userRoute);
 app.use('/api/products', productRoute);
 

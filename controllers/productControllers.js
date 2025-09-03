@@ -101,6 +101,7 @@ module.exports={
     getProducts,
     updateProduct,
     deleteProduct,
+    findProduct
 
 }
 

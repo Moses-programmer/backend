@@ -8,7 +8,6 @@ router.use(express.urlencoded({ extended: true }));
 
 // http methods
 router.post("/createuser", createUser);
-
 //get users
 router.get("/finduser/:id", findUsers);
 // update user
